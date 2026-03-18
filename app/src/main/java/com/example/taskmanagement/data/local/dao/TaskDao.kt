@@ -18,6 +18,6 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE dueDate= :today AND isCompleted = 0")
     fun getTasksDueToday(today: LocalDate): Flow<List<Task>>
 
-    @Query("SELECT COUNT() WHERE isCompleted = 1")
+    @Query("SELECT COUNT(*) FROM tasks WHERE isCompleted = 1")
     fun getCompletedCount(): Flow<Int>
 }
