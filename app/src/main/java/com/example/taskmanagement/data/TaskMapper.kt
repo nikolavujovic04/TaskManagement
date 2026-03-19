@@ -30,14 +30,14 @@ object TaskMapper {
     }
     fun mapEntityToDto(entity: Task): TaskDtoItem{
         return TaskDtoItem(
-            id = if(entity.remoteId.isNotBlank()) entity.remoteId.toInt() else 0,
+            id = if(entity.remoteId.isNotBlank()) entity.remoteId else "0",
             title = entity.title,
             description = entity.description,
             priority = entity.priority,
             reminderEnabled = entity.reminderEnabled,
             dueDate = entity.dueDate.toString(), //Convert LocalDate to a standard "YYYY-MM-DD" string
             tags = entity.tags,
-            isCompleted = entity.isCompleted,
+            isCompleted = entity.isCompleted
         )
     }
 }
