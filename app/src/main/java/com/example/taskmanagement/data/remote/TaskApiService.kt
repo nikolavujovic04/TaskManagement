@@ -24,7 +24,6 @@ interface TaskApiService {
     ): TaskDtoItem
 
     suspend fun deleteTask(
-        @Path("id") taskId: Int,
-        @Body task: TaskDtoItem
+        @Path("id") taskId: Int
     ): Response<Unit> //jer samo brisemo task, ne primamo ni jednu stavku
 }
