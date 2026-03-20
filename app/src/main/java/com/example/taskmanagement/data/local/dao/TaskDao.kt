@@ -19,8 +19,11 @@ interface TaskDao {
     @Query("SELECT * FROM tasks ORDER BY isCompleted ASC, dueDate DESC")
     fun getAllTasks(): Flow<List<Task>>//vracamo listu taskova
 
+    @Query("SELECT * FROM tasks WHERE dueDate= :date ORDER BY isCompleted ASC")
+    fun getTasksDueToday(date: LocalDate): Flow<List<Task>>
+
     @Query("SELECT * FROM tasks WHERE dueDate= :today AND isCompleted = 0")
-    fun getTasksDueToday(today: LocalDate): Flow<List<Task>>
+    fun getTasksForDate(today: LocalDate): Flow<List<Task>>
 
     @Query("SELECT COUNT(*) FROM tasks WHERE isCompleted = 1")
     fun getCompletedCount(): Flow<Int>
@@ -35,7 +38,7 @@ interface TaskDao {
     fun getTaskInDateRange(startDate: LocalDate, endDate: LocalDate): Flow<List<Task>>
 
     @Query("SELECT DISTINCT dueDate FROM tasks WHERE dueDate BETWEEN :startDate AND :endDate")
-    fun getDatesWithTasks(startDate: LocalDate, endDate: LocalDate): Flow<List<Task>>
+    fun getDatesWithTasks(startDate: LocalDate, endDate: LocalDate): Flow<List<LocalDate>>
 
     @Query("SELECT * FROM tasks WHERE syncStatus != 'SYNCED'")
     suspend fun getDirtyTasks(): List<Task>

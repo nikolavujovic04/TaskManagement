@@ -95,7 +95,6 @@ class SyncWorker(
         return NotificationCompat.Builder(appContext, "SYC_CHANNEL_ID")
             .setContentTitle("Syncing Tasks")
             .setContentText(progress)
-            .setSmallIcon(R.drawable.ic_launcher_background)
             .setOngoing(true)
             .build()
     }
@@ -104,7 +103,6 @@ class SyncWorker(
         val finalNotification = NotificationCompat.Builder(appContext,"SYNC_CHANNEL_ID")
             .setContentTitle(title)
             .setContentText(content)
-            .setSmallIcon(R.drawable.ic_launcher_background)
             .build()
         notificationManager.notify(notificationId,finalNotification)
     }
