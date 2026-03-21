@@ -11,6 +11,9 @@ import com.example.taskmanagement.data.worker.SyncWorker
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
 
 object Graph {
     lateinit var repository: TaskRepository
@@ -32,10 +35,22 @@ object Graph {
             apiService = apiService,
             workManager = WorkManager.getInstance(ctx)
         )
+        setPeriodicSyncRequest(ctx)
     }
 
     private fun setPeriodicSyncRequest(ctx: Context){
         val periodicSyncRequest = PeriodicWorkRequestBuilder<SyncWorker>(
             1, TimeUnit.HOURS)//periodicni zahtev na jedan sat
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
+            ).build()
+
+        WorkManager.getInstance(ctx).enqueueUniquePeriodicWork(
+            "syncData",
+            ExistingPeriodicWorkPolicy.KEEP,
+            periodicSyncRequest
+        )
     }
 }
