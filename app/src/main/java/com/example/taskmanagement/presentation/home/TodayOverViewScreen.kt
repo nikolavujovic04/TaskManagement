@@ -2,6 +2,7 @@ package com.example.taskmanagement.presentation.home
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -101,23 +102,22 @@ private fun TodayOverViewScreen(
                     )
                 }
             }
+        }
+        AnimatedVisibility(visible = isRefreshing) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Sync,
+                    contentDescription = "Sync",
+                    tint = MaterialTheme.colorScheme.onSurface.copy(.5f),
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(Modifier.width(4.dp))
+                Text(text = "Syncing", color = MaterialTheme.colorScheme.onSurface.copy(.5f))
 
-            AnimatedVisibility(isRefreshing) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Sync,
-                        contentDescription = "Sync",
-                        tint = MaterialTheme.colorScheme.onSurface.copy(.5f),
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Text(text = "Syncing", color = MaterialTheme.colorScheme.onSurface.copy(.5f))
-
-                }
             }
         }
     }
