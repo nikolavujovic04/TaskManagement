@@ -43,6 +43,13 @@ fun TodayOverViewScreen(
     viewModel: HomeViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    TodayOverViewScreen(
+        state = uiState,
+        onRefresh = viewModel::onRefresh,
+        onTaskCheckedChange = viewModel::onTaskCheckedChange,
+        onSortChanged = viewModel::onSortChange,
+        modifier = modifier
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
