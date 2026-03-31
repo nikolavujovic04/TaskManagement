@@ -52,15 +52,13 @@ fun TaskPriority(
 
     Surface(
         modifier = modifier,
-        shape = MaterialTheme.shapes.medium,
         color = animatedColor.value,
-        shadowElevation = if(isSelected) 4.dp else 1.dp,
         onClick = onPriorityClick
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 8.dp)
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
         ) {
             Text(
                 text = priority.name,
