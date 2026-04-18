@@ -67,7 +67,7 @@ private fun NewTaskScreen(
     onTagChange: (TaskTag) -> Unit,
     onReminderChange: (Boolean) -> Unit,
     onCreateTask: () -> Unit,
-    ) {
+) {
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
     val datePickerDialog = DatePickerDialog(
@@ -85,7 +85,7 @@ private fun NewTaskScreen(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AnimatedVisibility (state.errorMessage != null){
+        AnimatedVisibility(state.errorMessage != null) {
             state.errorMessage?.let {
                 Text(
                     text = it,
@@ -178,40 +178,40 @@ private fun NewTaskScreen(
                     }
                 }
             }
-            Spacer(Modifier.height(16.dp))
-            TaskItemContainer() {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "Reminder",
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Switch(
-                        checked = state.isReminderEnabled,
-                        onCheckedChange = onReminderChange
-                    )
-                }
-            }
-            Spacer(Modifier.weight(1f))
-            Button(
-                onClick = onCreateTask,
+        }
+        Spacer(Modifier.height(16.dp))
+        TaskItemContainer() {
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp),
-                shape = MaterialTheme.shapes.medium
+                    .padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Create Task")
+                Text(
+                    text = "Reminder",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Switch(
+                    checked = state.isReminderEnabled,
+                    onCheckedChange = onReminderChange
+                )
             }
+        }
+        Spacer(Modifier.weight(1f))
+        Button(
+            onClick = onCreateTask,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
+            shape = MaterialTheme.shapes.medium
+        ) {
+            Text(text = "Create Task")
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun NewTaskScreenPrev() {
     NewTaskScreen(
