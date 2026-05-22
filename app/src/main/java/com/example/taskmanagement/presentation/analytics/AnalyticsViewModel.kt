@@ -40,7 +40,7 @@ class AnalyticsViewModel(
         taskRepository.getTasksInDateRange(firstDayOfMonth,lastDayOfMonth).map { tasksInMonth ->
             if(tasksInMonth.isEmpty())
                 return@map AnalyticsUiState(isLoading = false)
-            val totalTasks = tasksInMonth.size,
+            val totalTasks = tasksInMonth.size
             val completedTasks = tasksInMonth.filter { it.isCompleted }
             val completedCount = completedTasks.size
             val completionRate = if(totalTasks>0) completedCount.toFloat()/totalTasks else 0f
