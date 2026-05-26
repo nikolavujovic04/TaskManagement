@@ -1,5 +1,6 @@
 package com.example.taskmanagement.presentation.analytics
 
+import android.R.attr.path
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,9 +20,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.foundation.Canvas
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun AnalyticsScreen(
@@ -55,7 +64,9 @@ private fun AnalyticsScreen(
         return
     }
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
         Text(
             text = "Overview",
@@ -95,8 +106,107 @@ private fun AnalyticsScreen(
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(.7f)
                     )
                     Spacer(Modifier.height(16.dp))
+                    LineGraph(
+                        data = state.tasksCompletedPerDay,
+                        modifier = Modifier.fillMaxWidth()
+                            .height(100.dp)
+                    )
                 }
             }
         }
     }
+}
+
+@Composable
+fun LineGraph(
+    modifier: Modifier = Modifier,
+    data: List<Float>,
+    graphColor: Color = MaterialTheme.colorScheme.primary,
+    fillColor: Color = MaterialTheme.colorScheme.primary.copy(.2f)
+) {
+    Canvas(modifier = modifier) {
+        val width = size.width
+        val height = size.height
+
+        val maxData = data.maxOrNull() ?: 1f
+        val minData = data.minOrNull() ?: 0f
+
+        val range = maxData - minData
+
+        if (range == 0f) return@Canvas
+
+        val points = data.mapIndexed { index, value ->
+            val x = (index.toFloat()) / (data.size - 1) * width
+            val y = height - ((value - minData) / range) * height
+            Offset(x, y)
+        }
+
+        if (points.size > 1) {
+            val path = Path().apply {
+                moveTo(points.first().x, height)
+                lineTo(points.first().x, points.first().y)
+
+                for (i in 0 until points.size - 1) {
+                    val p1 = points[i]
+                    val p2 = points[i + 1]
+                    val controlPoint1 = Offset((p1.x + p2.x) / 2, p1.y)
+                    val controlPoint2 = Offset((p1.x + p2.x) / 2, p2.y)
+                    cubicTo(
+                        controlPoint1.x, controlPoint1.y,
+                        controlPoint2.x, controlPoint2.y,
+                        p2.x, p2.y
+                    )
+                }
+                lineTo(points.last().x, height)
+                close()
+            }
+            drawPath(
+                path = path,
+                Brush.verticalGradient(listOf(fillColor, Color.Transparent))
+            )
+
+            val linePath = Path().apply {
+                moveTo(points.first().x, points.first().y)
+                for (i in 0 until points.size - 1) {
+                    val p1 = points[i]
+                    val p2 = points[i + 1]
+                    val controlPoint1 = Offset((p1.x + p2.x) / 2, p1.y)
+                    val controlPoint2 = Offset((p1.x + p2.x) / 2, p2.y)
+                    cubicTo(
+                        controlPoint1.x, controlPoint1.y,
+                        controlPoint2.x, controlPoint2.y,
+                        p2.x, p2.y
+                    )
+
+                }
+            }
+            drawPath(
+                path = linePath,
+                color = graphColor,
+                style = Stroke(
+                    width = 3.dp.toPx(),
+                    cap = StrokeCap.Round
+                )
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PrevAnalyticScreen() {
+    val previewState = AnalyticsUiState(
+        completedTasksCount = 42,
+        completionRate = 0.75f,
+        tasksCompletedPerDay = listOf(1f, 2f, 0f, 4f, 3f, 1f, 5f, 2f, 3f, 4f, 1f, 6f),
+        categoryData = listOf(
+            CategoryData("work", 0.8f, Color(0xFF4CAF50)),
+            CategoryData("personal", 0.65f, Color(0xFF2196F3)),
+            CategoryData("health", 0.3f, Color(0xFF9C27B0))
+        ),
+        isLoading = false
+    )
+    AnalyticsScreen(
+        state = previewState
+    )
 }

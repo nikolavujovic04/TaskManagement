@@ -24,7 +24,7 @@ data class CategoryData(
 data class AnalyticsUiState(
     val completedTasksCount: Int = 0,
     val completionRate: Float = 0f,
-    val tasksCompletedPerDat: List<Float> = emptyList(),
+    val tasksCompletedPerDay: List<Float> = emptyList(),
     val categoryData: List<CategoryData> = emptyList(),
     val isLoading: Boolean = true
 )
@@ -51,7 +51,7 @@ class AnalyticsViewModel(
             AnalyticsUiState(
                 completedTasksCount = completedCount,
                 completionRate = completionRate,
-                tasksCompletedPerDat = taskCompletedPerDay,
+                tasksCompletedPerDay = taskCompletedPerDay,
                 categoryData = categoryData,
                 isLoading = false
             )
