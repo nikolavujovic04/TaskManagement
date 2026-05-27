@@ -18,13 +18,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Path
@@ -111,6 +115,76 @@ private fun AnalyticsScreen(
                         modifier = Modifier.fillMaxWidth()
                             .height(100.dp)
                     )
+
+
+                }
+            }
+
+        }
+        Spacer(Modifier.height(24.dp))
+        Text(
+            text = "Productivity",
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(horizontal = 16.dp),
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Spacer(Modifier.height(16.dp))
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
+            ),
+            shape = MaterialTheme.shapes.medium,
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(
+                    text = "Tasks by category",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(Modifier.height(16.dp))
+                state.categoryData.forEach { data ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = data.name,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.width(70.dp)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(24.dp)
+                                .clip(RoundedCornerShape(4.dp))
+                                .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = .1f))
+                        ){
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .fillMaxWidth(data.percentage)
+                                    .background(data.color)
+                                    .clip(RoundedCornerShape(4.dp))
+                            )
+                        }
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            text = "${(data.percentage * 100).toInt()}%",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
             }
         }
