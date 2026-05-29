@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LinearProgressIndicator
@@ -80,6 +81,7 @@ private fun AnalyticsScreen(
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold
         )
+        Spacer(Modifier.height(24.dp))
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -93,25 +95,29 @@ private fun AnalyticsScreen(
             ) {
                 Text(
                     text = "Tasks Completed",
-                    style = MaterialTheme.typography.displaySmall,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                Row(
-                    verticalAlignment = Alignment.Bottom
+                Column(
+                    verticalArrangement = Arrangement.Bottom
                 ) {
-                    Text(
-                        text = state.completedTasksCount.toString(),
-                        style = MaterialTheme.typography.displaySmall,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Spacer(Modifier.width(8.dp))
-                    Text(
-                        text = "This Month",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(.7f)
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = state.completedTasksCount.toString(),
+                            style = MaterialTheme.typography.displaySmall,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            text = "This Month",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(.7f)
+                        )
+                    }
                     Spacer(Modifier.height(16.dp))
                     LineGraph(
                         data = state.tasksCompletedPerDay,
