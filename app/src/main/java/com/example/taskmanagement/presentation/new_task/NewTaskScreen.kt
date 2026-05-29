@@ -45,7 +45,7 @@ import java.util.Calendar
 fun NewTaskScreen(
     modifier: Modifier = Modifier,
     viewModel: NewTaskViewModel = viewModel(),
-    onNavigateBack: () -> Unit
+    onNavigateBack: @Composable () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     LaunchedEffect(uiState.isTaskSaved) {
