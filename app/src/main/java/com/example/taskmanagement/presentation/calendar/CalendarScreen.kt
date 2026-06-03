@@ -2,6 +2,7 @@ package com.example.taskmanagement.presentation.calendar
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,6 +39,17 @@ fun CalendarScreen(
     viewModel: CalendarViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    CalendarScreen(
+        modifier = modifier,
+        state = uiState,
+        onDateSelected = viewModel::onDateSelected,
+        onNextWeek = viewModel::onNextWeek,
+        onNextMonth = viewModel::onNextMonth,
+        onTaskCheckedChange = viewModel::onTaskCheckedChange,
+        onViewChanged = viewModel::onViewChange,
+        onPreviousWeek = viewModel::onPreviousWeek,
+        onPreviousMonth = viewModel::onPreviousMonth
+    )
 }
 
 @Composable
@@ -137,12 +149,14 @@ private fun CalendarScreen(
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         Spacer(Modifier.height(16.dp))
-        LazyColumn {
+        LazyColumn(
+        ) {
             items(state.tasksForSelectedDate,key = {it.id}){ task ->
                 TaskItemComponent(
                     task = task,
                     onCheckedChange = {isChecked -> onTaskCheckedChange(task,isChecked) }
                 )
+                Spacer(Modifier.height(16.dp))
             }
         }
     }

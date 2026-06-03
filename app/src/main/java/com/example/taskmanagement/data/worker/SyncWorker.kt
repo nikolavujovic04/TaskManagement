@@ -15,7 +15,7 @@ import com.example.taskmanagement.data.local.AppDatabase
 import com.example.taskmanagement.data.local.models.SyncStatus
 import com.example.taskmanagement.di.Graph
 import retrofit2.HttpException
-
+const val SYNC_CHANNEL_ID = "SYNC_CHANNEL_ID"
 class SyncWorker(
     private val appContext: Context,
     params: WorkerParameters
@@ -92,7 +92,7 @@ class SyncWorker(
     }
 
     private fun createNotification(progress: String): Notification{
-        return NotificationCompat.Builder(appContext, "SYC_CHANNEL_ID")
+        return NotificationCompat.Builder(appContext, SYNC_CHANNEL_ID)
             .setContentTitle("Syncing Tasks")
             .setContentText(progress)
             .setOngoing(true)
@@ -100,7 +100,7 @@ class SyncWorker(
     }
 
     private fun showNotficationn(title: String, content: String){
-        val finalNotification = NotificationCompat.Builder(appContext,"SYNC_CHANNEL_ID")
+        val finalNotification = NotificationCompat.Builder(appContext,SYNC_CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(content)
             .build()

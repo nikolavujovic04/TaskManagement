@@ -43,16 +43,13 @@ fun TaskPriority(
     priority: Priority,
     isSelected: Boolean,
     onPriorityClick: () -> Unit
-    ) {
-    val animatedColor = animateColorAsState(
-        targetValue = if (isSelected) priority.color else MaterialTheme.colorScheme.onSurface,
-        label = "colorAnimation",
-        animationSpec = tween(durationMillis = 300, easing = FastOutLinearInEasing)
-    )
-
+) {
     Surface(
         modifier = modifier,
-        color = animatedColor.value,
+        color = if (isSelected)
+            priority.color
+        else
+            priority.color.copy(alpha = 0.25f),
         onClick = onPriorityClick
     ) {
         Row(
@@ -62,14 +59,17 @@ fun TaskPriority(
         ) {
             Text(
                 text = priority.name,
-                color = contentColorFor(animatedColor.value)
+                color = MaterialTheme.colorScheme.onSurface
             )
+
             Spacer(Modifier.width(4.dp))
+
             RadioButton(
                 selected = isSelected,
                 onClick = null,
                 colors = RadioButtonDefaults.colors(
-                    selectedColor = contentColorFor(animatedColor.value)
+                    selectedColor = priority.color,
+                    unselectedColor = priority.color
                 )
             )
         }

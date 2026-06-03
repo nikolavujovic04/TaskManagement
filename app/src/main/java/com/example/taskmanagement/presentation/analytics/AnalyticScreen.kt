@@ -46,6 +46,10 @@ fun AnalyticsScreen(
     viewModel: AnalyticsViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    AnalyticsScreen(
+        modifier = modifier,
+        state = uiState
+    )
 }
 
 @Composable
@@ -72,7 +76,7 @@ private fun AnalyticsScreen(
         return
     }
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {

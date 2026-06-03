@@ -37,11 +37,10 @@ fun TaskItemComponent(
     } ?: Priority.LOW
 
     Card(
-        modifier = Modifier.fillMaxWidth().padding(6.dp),
         shape = MaterialTheme.shapes.medium
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {

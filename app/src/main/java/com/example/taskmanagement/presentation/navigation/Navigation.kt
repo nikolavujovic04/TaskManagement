@@ -113,22 +113,27 @@ fun TaskNavigation(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Home,
+        startDestination = Screen.Home.route,
     ){
         composable (route = Screen.Home.route ){
             TodayOverViewScreen(modifier = modifier)
         }
-        composable (route = Screen.NewTask.route ){
-            NewTaskScreen(modifier = modifier) { navController.popBackStack() }
+        composable(route = Screen.NewTask.route) {
+            NewTaskScreen(modifier = modifier) {
+                navController.popBackStack()
+            }
         }
-        composable (route = Screen.MyTasks.route ){
+
+        composable(route = Screen.MyTasks.route) {
             MyTasksScreen(modifier = modifier)
         }
-        composable (route = Screen.Analytics.route ){
-            NewTaskScreen { AnalyticsScreen(modifier = modifier) }
+
+        composable(route = Screen.Analytics.route) {
+            AnalyticsScreen(modifier = modifier)
         }
-        composable (route = Screen.Calendar.route ){
-            NewTaskScreen { CalendarScreen(modifier = modifier) }
+
+        composable(route = Screen.Calendar.route) {
+            CalendarScreen(modifier = modifier)
         }
     }
 }
